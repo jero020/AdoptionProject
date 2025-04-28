@@ -8,9 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class menu extends JFrame {
+public class GuardarMascotaFrame extends JFrame {
 
-    public menu() {
+    public GuardarMascotaFrame() {
         // Configuración básica de la ventana
         setTitle("Registro de Mascota");
         setSize(400, 500);
@@ -21,7 +21,7 @@ public class menu extends JFrame {
         JLabel nombreLabel = new JLabel("Nombre:");
         JTextField nombreField = new JTextField();
 
-        JLabel animalLabel = new JLabel("Animal:");
+        JLabel animalLabel = new JLabel("Tipo de animal:");
         JTextField animalField = new JTextField();
 
         JLabel edadLabel = new JLabel("Edad:");
@@ -95,6 +95,6 @@ public class menu extends JFrame {
     }
 
     public static void main(String[] args) {
-        new menu();
+        new GuardarMascotaFrame();
     }
 }
