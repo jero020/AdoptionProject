@@ -121,4 +121,9 @@ public class Mascota {
             partes[4] // Assuming the last parameter is 'genero'
         );
     }
+    public void guardar() {
+        // Implementar la lógica para guardar la mascota en un archivo o base de datos
+        // Aquí puedes usar FileWriter o cualquier otra forma de persistencia
+        System.out.println(this);
+    }
 }
