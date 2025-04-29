@@ -93,6 +93,7 @@ public class GuardarMascotaFrame extends JFrame {
         // Hacer visible la ventana
         setVisible(true);
     }
+    
 
     public static void main(String[] args) {
         new GuardarMascotaFrame();
