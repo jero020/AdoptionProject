@@ -96,17 +96,7 @@ public class Mascota {
     public String toString() {
         return id + "," + nombre + "," + raza + "," + edad + "," + genero + "," + estadoSalud + "," + descripcion + "," + urlFoto;
     }
-    /**
-     * Creates a new instance of the Mascota class from a formatted string.
-     * The input string is expected to be a comma-separated list of values,
-     * where each value corresponds to a specific attribute of the Mascota object.
-     * 
-     * @param linea A comma-separated string containing the attributes of a Mascota.
-     *              The expected format is: "id,nombre,raza,edad,color,propietario,telefono,genero".
-     * @return A new Mascota object initialized with the parsed values from the input string.
-     * @throws NumberFormatException If the string contains invalid numeric values for 'id' or 'edad'.
-     * @throws ArrayIndexOutOfBoundsException If the input string does not contain the expected number of values.
-     */
+    // Método para crear una mascota a partir de una línea de texto 
     public static Mascota fromString(String linea) { 
         String[] partes = linea.split(",", 8);
         return new Mascota(

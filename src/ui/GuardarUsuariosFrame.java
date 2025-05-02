@@ -6,62 +6,63 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GuardarUsuariosFrame extends JFrame {
-    public class GuardarUsuariosPanel extends JFrame {
-        private JTextField nombreField;
-        private JTextField apellidoField;
-        private JTextField edadField;
-        private JTextField emailField;
-        private JButton guardarButton;
 
-        public GuardarUsuariosPanel() {
-            setTitle("Guardar Usuario");
-            setSize(400, 300);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setLayout(new GridLayout(5, 2));
+    public GuardarUsuariosFrame() {
+        // Configuración básica de la ventana
+        setTitle("Registro de Usuario");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(5, 2, 10, 10)); // 5 filas, 2 columnas
 
-            // Labels and text fields
-            add(new JLabel("Nombre:"));
-            nombreField = new JTextField();
-            add(nombreField);
+        // Crear etiquetas y campos de texto
+        JLabel nombreLabel = new JLabel("Nombre:");
+        JTextField nombreField = new JTextField();
 
-            add(new JLabel("Apellido:"));
-            apellidoField = new JTextField();
-            add(apellidoField);
+        JLabel edadLabel = new JLabel("Edad:");
+        JTextField edadField = new JTextField();
 
-            add(new JLabel("Edad:"));
-            edadField = new JTextField();
-            add(edadField);
+        JLabel generoLabel = new JLabel("Género:");
+        JTextField generoField = new JTextField();
 
-            add(new JLabel("Email:"));
-            emailField = new JTextField();
-            add(emailField);
+        JLabel emailLabel = new JLabel("Email:");
+        JTextField emailField = new JTextField();
 
-            // Save button
-            guardarButton = new JButton("Guardar");
-            add(guardarButton);
+        // Botón para guardar
+        JButton guardarButton = new JButton("Guardar");
+        guardarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Obtener los valores ingresados
+                String nombre = nombreField.getText();
+                int edad = Integer.parseInt(edadField.getText());
+                String genero = generoField.getText();
+                String email = emailField.getText();
 
-            guardarButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    guardarUsuario();
-                }
-            });
+                // Aquí puedes guardar los datos en un modelo o base de datos
+                System.out.println("Datos del usuario:");
+                System.out.println("Nombre: " + nombre);
+                System.out.println("Edad: " + edad);
+                System.out.println("Género: " + genero);
+                System.out.println("Email: " + email);
 
-            setVisible(true);
-        }
+                // Mostrar mensaje de confirmación
+                JOptionPane.showMessageDialog(null, "Datos del usuario guardados correctamente.");
+            }
+        });
 
-        private void guardarUsuario() {
-            String nombre = nombreField.getText();
-            String apellido = apellidoField.getText();
-            String edad = edadField.getText();
-            String email = emailField.getText();
+        // Agregar componentes al JFrame
+        add(nombreLabel);
+        add(nombreField);
+        add(edadLabel);
+        add(edadField);
+        add(generoLabel);
+        add(generoField);
+        add(emailLabel);
+        add(emailField);
+        add(new JLabel()); // Espacio vacío
+        add(guardarButton);
 
-            // Logic to save user information
-            JOptionPane.showMessageDialog(this, "Usuario guardado:\n" +
-                    "Nombre: " + nombre + "\n" +
-                    "Apellido: " + apellido + "\n" +
-                    "Edad: " + edad + "\n" +
-                    "Email: " + email);
-        }
+        // Hacer visible la ventana
+        setVisible(true);
     }
 }

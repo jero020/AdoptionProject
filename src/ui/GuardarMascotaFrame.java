@@ -1,9 +1,7 @@
 package ui;
 
 import javax.swing.*;
-
 import models.Mascota;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -94,8 +92,4 @@ public class GuardarMascotaFrame extends JFrame {
         setVisible(true);
     }
     
-
-    public static void main(String[] args) {
-        new GuardarMascotaFrame();
-    }
 }
