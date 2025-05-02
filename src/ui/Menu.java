@@ -1,13 +1,15 @@
+package ui;
+
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu {
-    public static void menu(String[] args) {
-        new Menu();
-    }
+    private JFrame frame;
+    
     public Menu() {
-        JFrame frame = new JFrame("Adoption Project");
+        frame = new JFrame("Adoption Project");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 200);
         frame.setLayout(null);
@@ -32,8 +34,10 @@ public class Menu {
 
         frame.add(btnUsuarios);
         frame.add(btnMascotas);
+        setVisible(true);
 
-        frame.setVisible(true);
-        // Constructor vacío
+    }
+    public void setVisible(boolean b) {
+      this.frame.setVisible(b);
     }
 }
