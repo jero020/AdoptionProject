@@ -111,8 +111,14 @@ public class Mascota {
             partes[4] // Assuming the last parameter is 'genero'
         );
     }
+    
     public void guardar() {
-        // Implementar la lógica para guardar la mascota en un archivo o base de datos
+        try (java.io.FileWriter writer = new java.io.FileWriter("data/mascotas.txt", true)) {
+            writer.write(this.toString() + System.lineSeparator());
+        } catch (java.io.IOException e) {
+            System.err.println("Error al guardar la mascota: " + e.getMessage());
+        }
+    
         // Aquí puedes usar FileWriter o cualquier otra forma de persistencia
         System.out.println(this);
     }
