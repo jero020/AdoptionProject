@@ -53,7 +53,7 @@ public class GuardarMascotaFrame extends JFrame {
                 String animal = animalField.getText();
                 String edad = edadField.getText();
                 String raza = razaField.getText();
-                int id =Integer.parseInt(idField.getText());
+                String id =idField.getText();
                 String estadoSalud = estadoSaludField.getText();
                 String descripcion = descripcionField.getText();
                 String urlFoto = urlFotoField.getText();

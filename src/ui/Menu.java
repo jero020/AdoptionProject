@@ -32,6 +32,17 @@ public class Menu {
             }
         });
 
+        JButton btnConsultarMascotas = new JButton("Consultar Mascotas");
+        btnConsultarMascotas.setBounds(50, 150, 200, 30);
+        btnConsultarMascotas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            new ConsultarMascotaFrame().setVisible(true);
+            }
+        });
+
+        frame.add(btnConsultarMascotas);
+
         frame.add(btnUsuarios);
         frame.add(btnMascotas);
         setVisible(true);

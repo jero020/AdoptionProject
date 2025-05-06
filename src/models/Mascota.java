@@ -5,14 +5,13 @@ public class Mascota {
     private String animal; // Ejemplo: perro, gato, etc.
     private int edad;
     private String raza;
-    private int id;
+    private String id;
     private String estadoSalud;
     private String descripcion;
     private String urlFoto;
     private String genero; // Ejemplo: macho, hembra
-
     // Constructor
-    public Mascota(String nombre, String animal, int edad, String raza, int id, String estadoSalud, String descripcion, String urlFoto, String genero) {
+    public Mascota(String nombre, String animal, int edad, String raza, String id, String estadoSalud, String descripcion, String urlFoto, String genero) {
         this.nombre = nombre;
         this.animal= animal;
         this.edad = edad;
@@ -27,11 +26,11 @@ public class Mascota {
 
     
     // Getters y Setters para los nuevos atributos
-    public int getId() {
+    public String getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -102,9 +101,9 @@ public class Mascota {
         return new Mascota(
             partes[1],
             partes[2],
-            Integer.parseInt(partes[3]),
+            Integer.parseInt(partes[3]), // Convert 'edad' to int
             partes[4],
-            Integer.parseInt(partes[0]),
+            partes[0],
             partes[5],
             partes[6],
             partes[7],
@@ -118,8 +117,22 @@ public class Mascota {
         } catch (java.io.IOException e) {
             System.err.println("Error al guardar la mascota: " + e.getMessage());
         }
+        
     
-        // Aquí puedes usar FileWriter o cualquier otra forma de persistencia
         System.out.println(this);
+    }
+    public static Mascota buscarPorId(String idBuscado) {
+        try (java.util.Scanner scanner = new java.util.Scanner(new java.io.File("data/mascotas.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                Mascota mascota = Mascota.fromString(linea);
+                if (mascota.getId().equals(String.valueOf(idBuscado))) {
+                    return mascota;
+                }
+            }
+        } catch (java.io.IOException e) {
+            System.err.println("Error al buscar la mascota: " + e.getMessage());
+        }
+        return null; // Retorna null si no se encuentra la mascota
     }
 }

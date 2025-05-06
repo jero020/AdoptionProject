@@ -4,15 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import models.Adoptante;
 public class GuardarUsuariosFrame extends JFrame {
 
     public GuardarUsuariosFrame() {
         // Configuración básica de la ventana
         setTitle("Registro de Usuario");
-        setSize(400, 300);
+        setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(5, 2, 10, 10)); // 5 filas, 2 columnas
+        setLayout(new GridLayout(6, 2, 10, 10)); // 5 filas, 2 columnas
 
         // Crear etiquetas y campos de texto
         JLabel nombreLabel = new JLabel("Nombre:");
@@ -27,30 +27,31 @@ public class GuardarUsuariosFrame extends JFrame {
         JLabel emailLabel = new JLabel("Email:");
         JTextField emailField = new JTextField();
 
+        JLabel cedulaLabel = new JLabel("Cedula:");
+        JTextField cedulaField = new JTextField();
+
         // Botón para guardar
         JButton guardarButton = new JButton("Guardar");
         guardarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Obtener los valores ingresados
+                int cedula=Integer.parseInt(cedulaField.getText());
                 String nombre = nombreField.getText();
                 int edad = Integer.parseInt(edadField.getText());
                 String genero = generoField.getText();
                 String email = emailField.getText();
-
+                Adoptante adoptante=new Adoptante(cedula,nombre, genero, edad, email);
                 // Aquí puedes guardar los datos en un modelo o base de datos
-                System.out.println("Datos del usuario:");
-                System.out.println("Nombre: " + nombre);
-                System.out.println("Edad: " + edad);
-                System.out.println("Género: " + genero);
-                System.out.println("Email: " + email);
-
+                adoptante.guardar();
                 // Mostrar mensaje de confirmación
                 JOptionPane.showMessageDialog(null, "Datos del usuario guardados correctamente.");
             }
         });
 
         // Agregar componentes al JFrame
+        add(cedulaLabel);
+        add(cedulaField);
         add(nombreLabel);
         add(nombreField);
         add(edadLabel);

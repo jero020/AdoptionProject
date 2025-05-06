@@ -1,17 +1,18 @@
 package models;
 
 public class Adoptante {
-    private String cedula;
+    private int cedula;
     private String nombre;
     private String apellido;
     private int edad;
     private String email;
 
-    public Adoptante(String nombre, String apellido, int edad, String email, String cedula) {
+    public Adoptante(int cedula, String nombre, String apellido, int edad, String email) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.email = email;
+        this.cedula=cedula;
     }
 
     public String getNombre() {
@@ -20,11 +21,11 @@ public class Adoptante {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public String getCedula() {
+    public int getCedula() {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
    
@@ -51,5 +52,19 @@ public class Adoptante {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    @Override
+    public String toString() {
+        return cedula+","+nombre+","+apellido+","+edad +","+email;
+    }
+
+    public void guardar() {
+        try (java.io.FileWriter writer = new java.io.FileWriter("data/adoptantes.txt", true)) {
+            writer.write(this.toString() + System.lineSeparator());
+        } catch (java.io.IOException e) {
+            System.err.println("Error al guardar adoptante " + e.getMessage()); 
+        }
+    
+        System.out.println(this);
     }
 }
