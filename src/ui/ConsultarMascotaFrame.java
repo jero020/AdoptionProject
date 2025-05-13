@@ -1,72 +1,139 @@
 package ui;
 
 import javax.swing.*;
+import models.Mascota;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import models.Mascota; // Asegúrate de que esta clase esté correctamente importada
 
-public class ConsultarMascotaFrame extends JFrame {
+public class ConsultarMascotaFrame extends JFrame implements ActionListener {
+    private JButton next;
+    private JButton previous;
+    private Mascota mascota;
+    private int idMascota = 1;
 
-    private JTextField idField;
-    private JTextArea resultArea;
-    private JButton searchButton;
+    // Campos de texto para mostrar la información de la mascota
+    private JLabel nombreLabel = new JLabel("Nombre:");
+    private JTextField nombreField = new JTextField();
+
+    private JLabel animalLabel = new JLabel("Tipo de animal:");
+    private JTextField animalField = new JTextField();
+
+    private JLabel edadLabel = new JLabel("Edad:");
+    private JTextField edadField = new JTextField();
+
+    private JLabel razaLabel = new JLabel("Raza:");
+    private JTextField razaField = new JTextField();
+
+    private JLabel idLabel = new JLabel("ID:");
+    private JTextField idField = new JTextField();
+
+    private JLabel estadoSaludLabel = new JLabel("Estado de Salud:");
+    private JTextField estadoSaludField = new JTextField();
+
+    private JLabel descripcionLabel = new JLabel("Descripción:");
+    private JTextField descripcionField = new JTextField();
+
+    private JLabel urlFotoLabel = new JLabel("URL de Foto:");
+    private JTextField urlFotoField = new JTextField();
+
+    private JLabel generoLabel = new JLabel("Género:");
+    private JTextField generoField = new JTextField();
 
     public ConsultarMascotaFrame() {
-        setTitle("Consultar Mascota");
-        setSize(500, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
+        // Configuración básica de la ventana
+        setTitle("Registro de Mascota");
+        setSize(600, 800);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(12, 2, 10, 10)); // 12 filas, 2 columnas
 
-        // Panel superior para la entrada del ID
-        JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new FlowLayout());
-        JLabel idLabel = new JLabel("ID de la Mascota:");
-        idField = new JTextField(20);
-        searchButton = new JButton("Buscar");
+        // Crear botones
+        next = new JButton(">");
+        next.addActionListener(this);
 
-        inputPanel.add(idLabel);
-        inputPanel.add(idField);
-        inputPanel.add(searchButton);
+        previous = new JButton("<");
+        previous.addActionListener(this);
 
-        // Área de texto para mostrar resultados
-        resultArea = new JTextArea();
-        resultArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(resultArea);
+        // Agregar componentes al JFrame
+        add(nombreLabel);
+        add(nombreField);
+        add(animalLabel);
+        add(animalField);
+        add(edadLabel);
+        add(edadField);
+        add(razaLabel);
+        add(razaField);
+        add(idLabel);
+        add(idField);
+        add(estadoSaludLabel);
+        add(estadoSaludField);
+        add(descripcionLabel);
+        add(descripcionField);
+        add(urlFotoLabel);
+        add(urlFotoField);
+        add(generoLabel);
+        add(generoField);
+        add(previous);
+        add(next);
 
-        // Agregar componentes al frame
-        add(inputPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
+        // Cargar la primera mascota
+        this.mascota = Mascota.buscarPorId(idMascota);
+        recargarMascota();
 
-        // Acción del botón de búsqueda
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buscarMascotaPorId();
-            }
-        });
+        // Hacer visible la ventana
+        setVisible(true);
     }
 
-    private void buscarMascotaPorId() {
-        String id = idField.getText().trim();
+    public void recargarMascota() {
+        if (this.mascota != null) {
+            nombreField.setText(this.mascota.getNombre());
+            animalField.setText(this.mascota.getTipo());
+            edadField.setText(String.valueOf(this.mascota.getEdad()));
+            razaField.setText(this.mascota.getRaza());
+            idField.setText(String.valueOf(this.mascota.getId()));
+            estadoSaludField.setText(this.mascota.getEstadoSalud());
+            descripcionField.setText(this.mascota.getDescripcion());
+            urlFotoField.setText(this.mascota.getUrlFoto());
+            generoField.setText(this.mascota.getGenero());
+        } else {
+            // Limpiar los campos si no hay mascota
+            nombreField.setText("");
+            animalField.setText("");
+            edadField.setText("");
+            razaField.setText("");
+            idField.setText("");
+            estadoSaludField.setText("");
+            descripcionField.setText("");
+            urlFotoField.setText("");
+            generoField.setText("");
+        }
+    }
 
-        if (id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == next) {
+            idMascota++; // Incrementar el ID para la siguiente mascota
+        } else if (e.getSource() == previous) {
+            if (idMascota > 1) { // Evitar que el ID sea menor que 1
+                idMascota--;
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay mascotas anteriores.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
         }
 
-        try {
-            // Llamar al método buscarPorId de la clase Mascota
-            Mascota resultado = Mascota.buscarPorId(id);
+        // Buscar la mascota por el nuevo ID
+        this.mascota = Mascota.buscarPorId(idMascota);
 
-            if (resultado != null) {
-                resultArea.setText(resultado.toString());
-            } else {
-                resultArea.setText("No se encontró ninguna mascota con el ID proporcionado.");
+        if (this.mascota != null) {
+            recargarMascota(); // Recargar los datos de la mascota en los campos
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró una mascota con el ID: " + idMascota, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            if (e.getSource() == next) {
+                idMascota--; // Revertir el cambio si no se encuentra la mascota
+            } else if (e.getSource() == previous) {
+                idMascota++;
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Ocurrió un error al buscar la mascota: " + ex.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -59,7 +59,7 @@ public class GuardarMascotaFrame extends JFrame {
                 String urlFoto = urlFotoField.getText();
                 String genero = generoField.getText();
 
-                Mascota mascota = new Mascota(nombre, animal, Integer.parseInt(edad), raza, id, estadoSalud, descripcion, urlFoto, genero); 
+                Mascota mascota = new Mascota(nombre, animal, Integer.parseInt(edad), raza, Integer.parseInt(id), estadoSalud, descripcion, urlFoto, genero); 
                 mascota.guardar();
                 // Mostrar mensaje de confirmación
                 JOptionPane.showMessageDialog(null, "Datos guardados correctamente.");

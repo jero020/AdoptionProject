@@ -5,13 +5,13 @@ public class Mascota {
     private String animal; // Ejemplo: perro, gato, etc.
     private int edad;
     private String raza;
-    private String id;
+    private int id;
     private String estadoSalud;
     private String descripcion;
     private String urlFoto;
     private String genero; // Ejemplo: macho, hembra
     // Constructor
-    public Mascota(String nombre, String animal, int edad, String raza, String id, String estadoSalud, String descripcion, String urlFoto, String genero) {
+    public Mascota(String nombre, String animal, int edad, String raza, int id, String estadoSalud, String descripcion, String urlFoto, String genero) {
         this.nombre = nombre;
         this.animal= animal;
         this.edad = edad;
@@ -26,11 +26,11 @@ public class Mascota {
 
     
     // Getters y Setters para los nuevos atributos
-    public String getId() {
+    public int getId() {
         return id;
     }
     
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -89,7 +89,12 @@ public class Mascota {
     public void setRaza(String raza) {
         this.raza = raza;
     }
-
+    public String getGenero() {
+        return genero;
+    }
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
     // Método para mostrar información de la mascota
     @Override
     public String toString() {
@@ -103,7 +108,7 @@ public class Mascota {
             partes[2],
             Integer.parseInt(partes[3]), // Convert 'edad' to int
             partes[4],
-            partes[0],
+            Integer.parseInt(partes[0]), // Convert 'id' to int
             partes[5],
             partes[6],
             partes[7],
@@ -121,12 +126,12 @@ public class Mascota {
     
         System.out.println(this);
     }
-    public static Mascota buscarPorId(String idBuscado) {
+    public static Mascota buscarPorId(int idBuscado) {
         try (java.util.Scanner scanner = new java.util.Scanner(new java.io.File("data/mascotas.txt"))) {
             while (scanner.hasNextLine()) {
                 String linea = scanner.nextLine();
                 Mascota mascota = Mascota.fromString(linea);
-                if (mascota.getId().equals(String.valueOf(idBuscado))) {
+                if (mascota.getId()==(idBuscado)) {
                     return mascota;
                 }
             }

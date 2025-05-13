@@ -11,7 +11,7 @@ public class Menu {
     public Menu() {
         frame = new JFrame("Adoption Project");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
+        frame.setSize(300, 250);
         frame.setLayout(null);
 
         JButton btnUsuarios = new JButton("Guardar Usuarios");
