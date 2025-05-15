@@ -3,6 +3,7 @@ package models;
 public class Adopciones {
     private Adoptante adoptante;
     private Mascota mascota;
+    private String EstadoAdopcion;
     public Adopciones(){}
     public Adopciones(Adoptante adoptante, Mascota mascota){
         this.adoptante=adoptante;
@@ -19,6 +20,12 @@ public class Adopciones {
     }
     public Mascota getMascota(){
         return mascota;
+    }
+    public String getEstadoAdopcion() {
+        return EstadoAdopcion;
+    }
+    public void setEstadoAdopcion(String estadoAdopcion) {
+        EstadoAdopcion = estadoAdopcion;
     }
     public void guardar() {
         try (java.io.FileWriter writer = new java.io.FileWriter("data/adopciones.txt", true)) {

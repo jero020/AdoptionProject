@@ -41,8 +41,9 @@ public class GuardarMascotaFrame extends JFrame {
         JTextField urlFotoField = new JTextField();
 
         JLabel generoLabel = new JLabel("Género:");
-        JTextField generoField = new JTextField();
-
+        JComboBox<String> generoField = new JComboBox<>();
+        generoField.addItem("Macho");
+        generoField.addItem("Hembra");
         // Botón para guardar
         JButton guardarButton = new JButton("Guardar");
         guardarButton.addActionListener(new ActionListener() {
@@ -57,7 +58,7 @@ public class GuardarMascotaFrame extends JFrame {
                 String estadoSalud = estadoSaludField.getText();
                 String descripcion = descripcionField.getText();
                 String urlFoto = urlFotoField.getText();
-                String genero = generoField.getText();
+                String genero = (String) generoField.getSelectedItem();
 
                 Mascota mascota = new Mascota(nombre, animal, Integer.parseInt(edad), raza, Integer.parseInt(id), estadoSalud, descripcion, urlFoto, genero); 
                 mascota.guardar();

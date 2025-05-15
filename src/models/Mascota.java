@@ -1,5 +1,9 @@
 package models;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Scanner;
 public class Mascota {
     private String nombre;
     private String animal; // Ejemplo: perro, gato, etc.
@@ -139,5 +143,28 @@ public class Mascota {
             System.err.println("Error al buscar la mascota: " + e.getMessage());
         }
         return null; // Retorna null si no se encuentra la mascota
+    }
+
+    public static ArrayList<Mascota> cargarMascotasPorCriterios(String raza, int edad, String genero, String estadoSalud) {
+        ArrayList<Mascota> mascotasFiltradas = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new java.io.File("data/mascotas.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                Mascota mascota = Mascota.fromString(linea);
+
+                if ((raza.isEmpty() || mascota.getRaza().equalsIgnoreCase(raza)) &&
+                    (edad == -1 || mascota.getEdad() == edad) &&
+                    (genero.isEmpty() || mascota.getGenero().equalsIgnoreCase(genero)) &&
+                    (estadoSalud.isEmpty() || mascota.getEstadoSalud().equalsIgnoreCase(estadoSalud))) {
+                    mascotasFiltradas.add(mascota);
+                }else{
+                    System.out.println("La mascota" + mascota.getNombre() + " no cumple con los criterios de búsqueda.");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al cargar las mascotas: " + e.getMessage());
+        }
+
+        return mascotasFiltradas;
     }
 }
