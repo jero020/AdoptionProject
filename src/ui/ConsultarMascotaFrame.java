@@ -11,9 +11,8 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
     private JButton next;
     private JButton previous;
     private JButton buscarButton;
-    private JButton adoptarButton;
     private Mascota mascota;
-    private int idMascota = 1;
+    private int idMascota = 0;
     private ArrayList<Mascota> listaMascotas = new ArrayList<>();
 
     // Campos de texto para filtrar
@@ -55,76 +54,103 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
     private JTextField generoField = new JTextField("");
 
     public ConsultarMascotaFrame() {
-        // Configuración básica de la ventana
         setTitle("Registro de Mascota");
-        setSize(600, 800);
+        setSize(400, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(16, 2, 10, 10)); // Ajustar filas y columnas
+        setLocationRelativeTo(null);
 
-        // Crear botones
-        next = new JButton(">");
-        next.addActionListener(this);
-        JButton btnUsuarios = new JButton("Guardar Usuarios");
-        btnUsuarios.setBounds(50, 50, 200, 30);
-        btnUsuarios.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new GuardarUsuariosFrame().setVisible(true);
-            }
-        });
+        // Panel principal con BoxLayout vertical
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        previous = new JButton("<");
-        previous.addActionListener(this);
-
+        // Panel de filtros
+        JPanel filtrosPanel = new JPanel(new GridLayout(5, 2, 5, 5));
+        filtrosPanel.setBorder(BorderFactory.createTitledBorder("Buscar mascotas"));
+        filtrosPanel.add(razaFiltroLabel);
+        filtrosPanel.add(razaFiltroTextField);
+        filtrosPanel.add(edadFiltroLabel);
+        filtrosPanel.add(edadFiltroTextField);
+        filtrosPanel.add(generoFiltroLabel);
+        filtrosPanel.add(generoFiltroTextField);
+        filtrosPanel.add(estadoSaludFiltroLabel);
+        filtrosPanel.add(estadoSaludFiltroTextField);
+        filtrosPanel.add(new JLabel());
         buscarButton = new JButton("Buscar");
         buscarButton.addActionListener(this);
+        filtrosPanel.add(buscarButton);
 
-        // Agregar componentes de búsqueda
-        add(razaFiltroLabel);
-        add(razaFiltroTextField);
-        add(edadFiltroLabel);
-        add(edadFiltroTextField);
-        add(generoFiltroLabel);
-        add(generoFiltroTextField);
-        add(estadoSaludFiltroLabel);
-        add(estadoSaludFiltroTextField);
-        add(new JLabel()); // Espacio vacío
-        add(buscarButton);
+        // Panel de información de mascota
+        JPanel infoPanel = new JPanel(new GridLayout(9, 2, 5, 5));
+        infoPanel.setBorder(BorderFactory.createTitledBorder("Información de la mascota"));
+        infoPanel.add(nombreLabel);
+        infoPanel.add(nombreField);
+        infoPanel.add(animalLabel);
+        infoPanel.add(animalField);
+        infoPanel.add(edadLabel);
+        infoPanel.add(edadField);
+        infoPanel.add(razaLabel);
+        infoPanel.add(razaField);
+        infoPanel.add(idLabel);
+        infoPanel.add(idField);
+        infoPanel.add(estadoSaludLabel);
+        infoPanel.add(estadoSaludField);
+        infoPanel.add(descripcionLabel);
+        infoPanel.add(descripcionField);
+        infoPanel.add(urlFotoLabel);
+        infoPanel.add(urlFotoField);
+        infoPanel.add(generoLabel);
+        infoPanel.add(generoField);
 
-        // Línea separadora
-        JSeparator separator = new JSeparator();
-        add(separator);
-        add(new JLabel()); // Espacio vacío para mantener el diseño
+        // Desactivar edición de los campos de información
+        nombreField.setEditable(false);
+        animalField.setEditable(false);
+        edadField.setEditable(false);
+        razaField.setEditable(false);
+        idField.setEditable(false);
+        estadoSaludField.setEditable(false);
+        descripcionField.setEditable(false);
+        urlFotoField.setEditable(false);
+        generoField.setEditable(false);
 
-        // Agregar componentes de información de la mascota
-        add(nombreLabel);
-        add(nombreField);
-        add(animalLabel);
-        add(animalField);
-        add(edadLabel);
-        add(edadField);
-        add(razaLabel);
-        add(razaField);
-        add(idLabel);
-        add(idField);
-        add(estadoSaludLabel);
-        add(estadoSaludField);
-        add(descripcionLabel);
-        add(descripcionField);
-        add(urlFotoLabel);
-        add(urlFotoField);
-        add(generoLabel);
-        add(generoField);
-        add(previous);
-        add(next);
+        // Panel de navegación
+        JPanel navPanel = new JPanel();
+        previous = new JButton("<");
+        previous.addActionListener(this);
+        next = new JButton(">");
+        next.addActionListener(this);
+        JButton btnAdoptar = new JButton("Adoptar Mascota");
+        btnAdoptar.addActionListener(e -> new AdopcionesUi().setVisible(true));
+        navPanel.add(previous);
+        navPanel.add(next);
+        navPanel.add(btnAdoptar);
 
-        // Cargar la primera mascota
+        // Agregar todo al panel principal
+        mainPanel.add(filtrosPanel);
+        mainPanel.add(Box.createVerticalStrut(10));
+        mainPanel.add(new JSeparator());
+        mainPanel.add(Box.createVerticalStrut(10));
+        mainPanel.add(infoPanel);
+        mainPanel.add(Box.createVerticalStrut(10));
+        mainPanel.add(navPanel);
 
-        // Hacer visible la ventana
+        setContentPane(mainPanel);
         setVisible(true);
     }
 
     public void recargarMascota() {
+        if (listaMascotas.isEmpty() || idMascota < 0 || idMascota >= listaMascotas.size()) {
+            nombreField.setText("");
+            animalField.setText("");
+            edadField.setText("");
+            razaField.setText("");
+            idField.setText("");
+            estadoSaludField.setText("");
+            descripcionField.setText("");
+            urlFotoField.setText("");
+            generoField.setText("");
+            return;
+        }
         this.mascota = listaMascotas.get(idMascota);
         if (this.mascota != null) {
             nombreField.setText(this.mascota.getNombre());
@@ -136,65 +162,58 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
             descripcionField.setText(this.mascota.getDescripcion());
             urlFotoField.setText(this.mascota.getUrlFoto());
             generoField.setText(this.mascota.getGenero());
-        } 
+        }
     }
 
     @Override
-public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == next) {
-        if (idMascota < listaMascotas.size() -1 ) { // Verificar que no se exceda el tamaño de la lista
-            idMascota++;
-            recargarMascota();
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay más mascotas.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        }
-    } else if (e.getSource() == previous) {
-        if (idMascota > 0) { // Verificar que no sea menor que 0
-            idMascota--;
-            this.mascota = listaMascotas.get(idMascota);
-            recargarMascota();
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay mascotas anteriores.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == next) {
+            if (idMascota < listaMascotas.size() - 1) {
+                idMascota++;
+                recargarMascota();
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay más mascotas.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else if (e.getSource() == previous) {
+            if (idMascota > 0) {
+                idMascota--;
+                recargarMascota();
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay mascotas anteriores.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else if (e.getSource() == buscarButton) {
+            buscarMascotasClickButton();
         }
     }
-    else if (e.getSource() == buscarButton) {
-        buscarMascotasClickButton();
-    }
-}
 
     private void buscarMascotasClickButton() {
         idMascota = 0;
         try {
-            // Validar y convertir la edad
-            int edad = -1; // Valor por defecto si no se especifica la edad
+            int edad = -1;
             if (!edadFiltroTextField.getText().trim().isEmpty()) {
                 edad = Integer.parseInt(edadFiltroTextField.getText().trim());
             }
-    
-            // Cargar el atributo listaMascotas con los datos de las mascotas
             listaMascotas = Mascota.cargarMascotasPorCriterios(
                 razaFiltroTextField.getText().trim(),
                 edad,
                 generoFiltroTextField.getText().trim(),
                 estadoSaludFiltroTextField.getText().trim()
             );
-    
             if (listaMascotas.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No se encontraron mascotas con los criterios de búsqueda.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 this.mascota = null;
-                recargarMascota(); // Limpiar los campos si no hay resultados
+                recargarMascota();
             } else {
-                // Reiniciar el índice al primer elemento de la lista
                 idMascota = 0;
                 this.mascota = listaMascotas.get(idMascota);
-                recargarMascota(); // Mostrar la primera mascota de la lista
+                recargarMascota();
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor numérico válido para la edad.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     public Mascota getMascotaActual() {
         return this.mascota;
     }
-    
 }

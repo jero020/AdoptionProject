@@ -1,4 +1,5 @@
-1,Gray,Gato,2,Hembra,Saludable,Linda y gris,ksjfa2,Kira,Gato,3,Hembra,Bueno,Linda cariñosa,asfjsa
+1,Gray,Gato,2,Hembra,Saludable,Linda y gris,ksjfa
+2,Kira,Gato,3,Hembra,Bueno,Linda cariñosa,asfjsa
 3,Mongo,Pastor Aleman,3,Macho,Bueno,Lindo muy tierno,asfjsa
 4,loki,Fila brazilero,4,Macho,Bueno,Lindo muy tierno,asfjsa
 5,max,Fila brazilero,4,Macho,Bueno,Bravo,asfjsa
