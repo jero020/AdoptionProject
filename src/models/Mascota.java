@@ -1,5 +1,7 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Scanner;
 public class Mascota {
     private String nombre;
     private String animal; // Ejemplo: perro, gato, etc.
@@ -10,8 +12,10 @@ public class Mascota {
     private String descripcion;
     private String urlFoto;
     private String genero; // Ejemplo: macho, hembra
-
     // Constructor
+    public Mascota() {
+        // Constructor vacío
+    }
     public Mascota(String nombre, String animal, int edad, String raza, int id, String estadoSalud, String descripcion, String urlFoto, String genero) {
         this.nombre = nombre;
         this.animal= animal;
@@ -90,35 +94,98 @@ public class Mascota {
     public void setRaza(String raza) {
         this.raza = raza;
     }
-
+    public String getGenero() {
+        return genero;
+    }
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
     // Método para mostrar información de la mascota
     @Override
     public String toString() {
         return id + "," + nombre + "," + raza + "," + edad + "," + genero + "," + estadoSalud + "," + descripcion + "," + urlFoto;
     }
-    /**
-     * Creates a new instance of the Mascota class from a formatted string.
-     * The input string is expected to be a comma-separated list of values,
-     * where each value corresponds to a specific attribute of the Mascota object.
-     * 
-     * @param linea A comma-separated string containing the attributes of a Mascota.
-     *              The expected format is: "id,nombre,raza,edad,color,propietario,telefono,genero".
-     * @return A new Mascota object initialized with the parsed values from the input string.
-     * @throws NumberFormatException If the string contains invalid numeric values for 'id' or 'edad'.
-     * @throws ArrayIndexOutOfBoundsException If the input string does not contain the expected number of values.
-     */
+    // Método para crear una mascota a partir de una línea de texto 
     public static Mascota fromString(String linea) { 
         String[] partes = linea.split(",", 8);
         return new Mascota(
             partes[1],
             partes[2],
-            Integer.parseInt(partes[3]),
+            Integer.parseInt(partes[3]), // Convert 'edad' to int
             partes[4],
-            Integer.parseInt(partes[0]),
+            Integer.parseInt(partes[0]), // Convert 'id' to int
             partes[5],
             partes[6],
             partes[7],
             partes[4] // Assuming the last parameter is 'genero'
         );
+    }
+    
+    public void guardar() {
+        try (java.io.FileWriter writer = new java.io.FileWriter("data/mascotas.txt", true)) {
+            writer.write(this.toString() + System.lineSeparator());
+        } catch (java.io.IOException e) {
+            System.err.println("Error al guardar la mascota: " + e.getMessage());
+        }
+        
+    
+        System.out.println(this);
+    }
+    public static Mascota buscarPorId(int idBuscado) {
+        try (java.util.Scanner scanner = new java.util.Scanner(new java.io.File("data/mascotas.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                Mascota mascota = Mascota.fromString(linea);
+                if (mascota.getId()==(idBuscado)) {
+                    return mascota;
+                }
+            }
+        } catch (java.io.IOException e) {
+            System.err.println("Error al buscar la mascota: " + e.getMessage());
+        }
+        return null; // Retorna null si no se encuentra la mascota
+    }
+
+    public static ArrayList<Mascota> cargarMascotasPorCriterios(String raza, int edad, String genero, String estadoSalud) {
+        ArrayList<Mascota> mascotasFiltradas = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new java.io.File("data/mascotas.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                Mascota mascota = Mascota.fromString(linea);
+
+                if ((raza.isEmpty() || mascota.getRaza().equalsIgnoreCase(raza)) &&
+                    (edad == -1 || mascota.getEdad() == edad) &&
+                    (genero.isEmpty() || mascota.getGenero().equalsIgnoreCase(genero)) &&
+                    (estadoSalud.isEmpty() || mascota.getEstadoSalud().equalsIgnoreCase(estadoSalud))) {
+                    mascotasFiltradas.add(mascota);
+                }else{
+                    System.out.println("La mascota" + mascota.getNombre() + " no cumple con los criterios de búsqueda.");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al cargar las mascotas: " + e.getMessage());
+        }
+
+        return mascotasFiltradas;
+    }
+    public static int obtenerUltimoId() {
+        int ultimoId = -1;
+        try (Scanner scanner = new Scanner(new java.io.File("data/mascotas.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                String[] partes = linea.split(",", 2);
+                if (partes.length > 0) {
+                    try {
+                        int id = Integer.parseInt(partes[0]);
+                        ultimoId = id;
+                    } catch (NumberFormatException e) {
+                        // Ignorar líneas mal formateadas
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al obtener el último ID: " + e.getMessage());
+        }
+        return ultimoId;
     }
 }
