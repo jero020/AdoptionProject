@@ -1,2 +1,3 @@
-
 107654217,vicky,femenino,17,victoria@gmail.com
+1000762165,Sebastian Roldan,Hombre,21,Sebas@gmail.com
+1027804997,Jerónimo Velez,Hombre,17,jveleza11@eafit.com

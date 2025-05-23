@@ -1,7 +1,5 @@
-1,Gray,Gato,2,Hembra,Saludable,Gris bonita,sakfasj
-2,Bast,Gato,2,Hembra,Saludable,tri color bonita,sakfasj
-3,Silvestre,Gato,4,Macho,Saludable,Grande y peludo,sakfasj
-4,Kira,Gato,3,Hembra,Saludable,Cariñosa y pequeña,sakfasj
-5,Mongo,Perro,Pastor Aleman,3,Macho,Saludable,Muy cariñoso,sjafjsa
-6,Loki,Fila brazilero,6,Macho,Saludable,Lindo pero bravo,ajskdas
-8,jeronimo,pastor aleman,2,Macho,enefermo,moreno cabello ondulado,t6yhu8ji
+1,Gray,Gato,2,Hembra,Saludable,Linda y gris,ksjfa2,Kira,Gato,3,Hembra,Bueno,Linda cariñosa,asfjsa
+3,Mongo,Pastor Aleman,3,Macho,Bueno,Lindo muy tierno,asfjsa
+4,loki,Fila brazilero,4,Macho,Bueno,Lindo muy tierno,asfjsa
+5,max,Fila brazilero,4,Macho,Bueno,Bravo,asfjsa
+6,Bast,Gato,3,Hembra,Bueno,Linda, pero arisca,asfjsa
