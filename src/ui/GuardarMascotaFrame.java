@@ -13,7 +13,7 @@ public class GuardarMascotaFrame extends JFrame {
         setTitle("Registro de Mascota");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(11, 2, 10, 10)); // 11 filas, 2 columnas
+        setLayout(new GridLayout(10, 2, 10, 10)); // 10 filas, 2 columnas
 
         // Crear etiquetas y campos de texto
         JLabel nombreLabel = new JLabel("Nombre:");
@@ -28,8 +28,7 @@ public class GuardarMascotaFrame extends JFrame {
         JLabel razaLabel = new JLabel("Raza:");
         JTextField razaField = new JTextField();
 
-        JLabel idLabel = new JLabel("ID:");
-        JTextField idField = new JTextField();
+        // Eliminar el campo ID del formulario visual
 
         JLabel estadoSaludLabel = new JLabel("Estado de Salud:");
         JTextField estadoSaludField = new JTextField();
@@ -44,6 +43,7 @@ public class GuardarMascotaFrame extends JFrame {
         JComboBox<String> generoField = new JComboBox<>();
         generoField.addItem("Macho");
         generoField.addItem("Hembra");
+
         // Botón para guardar
         JButton guardarButton = new JButton("Guardar");
         guardarButton.addActionListener(new ActionListener() {
@@ -54,13 +54,14 @@ public class GuardarMascotaFrame extends JFrame {
                 String animal = animalField.getText();
                 String edad = edadField.getText();
                 String raza = razaField.getText();
-                String id =idField.getText();
+                // Generar o asignar el ID aquí (por ejemplo, autoincremental, UUID, etc.)
+                int id = Mascota.obtenerUltimoId()+1; // Debes implementar este método según tu lógica
                 String estadoSalud = estadoSaludField.getText();
                 String descripcion = descripcionField.getText();
                 String urlFoto = urlFotoField.getText();
                 String genero = (String) generoField.getSelectedItem();
 
-                Mascota mascota = new Mascota(nombre, animal, Integer.parseInt(edad), raza, Integer.parseInt(id), estadoSalud, descripcion, urlFoto, genero); 
+                Mascota mascota = new Mascota(nombre, animal, Integer.parseInt(edad), raza, id, estadoSalud, descripcion, urlFoto, genero); 
                 mascota.guardar();
                 // Mostrar mensaje de confirmación
                 JOptionPane.showMessageDialog(null, "Datos guardados correctamente.");
@@ -76,8 +77,7 @@ public class GuardarMascotaFrame extends JFrame {
         add(edadField);
         add(razaLabel);
         add(razaField);
-        add(idLabel);
-        add(idField);
+        // No se agrega el campo ID
         add(estadoSaludLabel);
         add(estadoSaludField);
         add(descripcionLabel);
@@ -92,5 +92,4 @@ public class GuardarMascotaFrame extends JFrame {
         // Hacer visible la ventana
         setVisible(true);
     }
-    
 }

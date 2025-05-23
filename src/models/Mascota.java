@@ -13,6 +13,9 @@ public class Mascota {
     private String urlFoto;
     private String genero; // Ejemplo: macho, hembra
     // Constructor
+    public Mascota() {
+        // Constructor vacío
+    }
     public Mascota(String nombre, String animal, int edad, String raza, int id, String estadoSalud, String descripcion, String urlFoto, String genero) {
         this.nombre = nombre;
         this.animal= animal;
@@ -164,5 +167,25 @@ public class Mascota {
         }
 
         return mascotasFiltradas;
+    }
+    public static int obtenerUltimoId() {
+        int ultimoId = -1;
+        try (Scanner scanner = new Scanner(new java.io.File("data/mascotas.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                String[] partes = linea.split(",", 2);
+                if (partes.length > 0) {
+                    try {
+                        int id = Integer.parseInt(partes[0]);
+                        ultimoId = id;
+                    } catch (NumberFormatException e) {
+                        // Ignorar líneas mal formateadas
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al obtener el último ID: " + e.getMessage());
+        }
+        return ultimoId;
     }
 }

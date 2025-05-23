@@ -67,4 +67,25 @@ public class Adoptante {
     
         System.out.println(this);
     }
+    public static Adoptante buscarPorCedula(int cedulaBuscada) {
+        try (java.util.Scanner scanner = new java.util.Scanner(new java.io.File("data/adoptantes.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                String[] partes = linea.split(",");
+                if (partes.length == 5) {
+                    int cedula = Integer.parseInt(partes[0]);
+                    if (cedula == cedulaBuscada) {
+                        String nombre = partes[1];
+                        String apellido = partes[2];
+                        int edad = Integer.parseInt(partes[3]);
+                        String email = partes[4];
+                        return new Adoptante(cedula, nombre, apellido, edad, email);
+                    }
+                }
+            }
+        } catch (java.io.IOException | NumberFormatException e) {
+            System.err.println("Error al buscar adoptante: " + e.getMessage());
+        }
+        return null;
+    }
 }

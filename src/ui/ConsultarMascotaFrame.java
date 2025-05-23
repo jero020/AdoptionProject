@@ -64,6 +64,14 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
         // Crear botones
         next = new JButton(">");
         next.addActionListener(this);
+        JButton btnUsuarios = new JButton("Guardar Usuarios");
+        btnUsuarios.setBounds(50, 50, 200, 30);
+        btnUsuarios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new GuardarUsuariosFrame().setVisible(true);
+            }
+        });
 
         previous = new JButton("<");
         previous.addActionListener(this);
@@ -185,4 +193,8 @@ public void actionPerformed(ActionEvent e) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor numérico válido para la edad.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    public Mascota getMascotaActual() {
+        return this.mascota;
+    }
+    
 }
