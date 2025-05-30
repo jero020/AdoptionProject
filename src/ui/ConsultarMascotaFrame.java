@@ -18,10 +18,14 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
     // Campos de texto para filtrar
     private JLabel razaFiltroLabel = new JLabel("Raza:");
     private JTextField razaFiltroTextField = new JTextField();
-    private JLabel edadFiltroLabel = new JLabel("Edad:");
     private JTextField edadFiltroTextField = new JTextField();
     private JLabel generoFiltroLabel = new JLabel("Género:");
-    private JTextField generoFiltroTextField = new JTextField();
+    private JComboBox<String> generoFiltroComboBox = new JComboBox<>();
+    {
+        generoFiltroComboBox.addItem("Macho");
+        generoFiltroComboBox.addItem("Hembra");
+    }
+
     private JLabel estadoSaludFiltroLabel = new JLabel("Estado de Salud:");
     private JTextField estadoSaludFiltroTextField = new JTextField();
 
@@ -69,10 +73,10 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
         filtrosPanel.setBorder(BorderFactory.createTitledBorder("Buscar mascotas"));
         filtrosPanel.add(razaFiltroLabel);
         filtrosPanel.add(razaFiltroTextField);
-        filtrosPanel.add(edadFiltroLabel);
-        filtrosPanel.add(edadFiltroTextField);
         filtrosPanel.add(generoFiltroLabel);
-        filtrosPanel.add(generoFiltroTextField);
+        filtrosPanel.add(generoFiltroComboBox);
+        filtrosPanel.add(generoFiltroLabel);
+        filtrosPanel.add(generoFiltroComboBox);
         filtrosPanel.add(estadoSaludFiltroLabel);
         filtrosPanel.add(estadoSaludFiltroTextField);
         filtrosPanel.add(new JLabel());
@@ -120,7 +124,12 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
         next = new JButton(">");
         next.addActionListener(this);
         JButton btnAdoptar = new JButton("Adoptar Mascota");
-        btnAdoptar.addActionListener(e -> new AdopcionesUi().setVisible(true));
+        btnAdoptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            new AdopcionesUi().setVisible(true);
+            }
+        });
         navPanel.add(previous);
         navPanel.add(next);
         navPanel.add(btnAdoptar);
@@ -194,9 +203,9 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
                 edad = Integer.parseInt(edadFiltroTextField.getText().trim());
             }
             listaMascotas = Mascota.cargarMascotasPorCriterios(
-                razaFiltroTextField.getText().trim(),
+                (String)generoFiltroComboBox.getSelectedItem(),
                 edad,
-                generoFiltroTextField.getText().trim(),
+                razaFiltroTextField.getText().trim(),
                 estadoSaludFiltroTextField.getText().trim()
             );
             if (listaMascotas.isEmpty()) {

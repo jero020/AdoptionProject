@@ -1,18 +1,16 @@
 package ui;
 import javax.swing.*;
 import java.awt.event.*;
-import models.Adoptante; // Asegúrate de que la ruta del paquete sea correcta
-
-
-
+import models.Adopciones;
 public class AdopcionesUi extends JFrame {
     private JTextField cedulaField;
-    private JButton buscarButton;
+    private JButton adoptarButton;
     private JLabel resultadoLabel;
+    private JTextField mascotaIdField;
 
     public AdopcionesUi() {
         setTitle("Buscar Adoptante por Cédula");
-        setSize(400, 150);
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
@@ -24,31 +22,50 @@ public class AdopcionesUi extends JFrame {
         cedulaField.setBounds(160, 20, 180, 25);
         add(cedulaField);
 
-        buscarButton = new JButton("Buscar");
-        buscarButton.setBounds(140, 60, 100, 30);
-        add(buscarButton);
+        adoptarButton = new JButton("Adoptar");
+        adoptarButton.setBounds(140, 75, 100, 30);
+        add(adoptarButton);
 
         resultadoLabel = new JLabel("");
         resultadoLabel.setBounds(30, 100, 320, 25);
         add(resultadoLabel);
 
-        buscarButton.addActionListener(new ActionListener() {
+        JLabel mascotaIdLabel = new JLabel("ID Mascota:");
+        mascotaIdLabel.setBounds(30, 50, 120, 25);
+        add(mascotaIdLabel);
+
+        mascotaIdField = new JTextField();
+        mascotaIdField.setBounds(160, 50, 180, 25);
+        add(mascotaIdField);
+         
+        adoptarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String cedula = cedulaField.getText();
-                // Supón que el método buscarPorCedula retorna un objeto Adoptante o null
-                Object adoptante = Adoptante.buscarPorCedula(Integer.parseInt(cedula));
-                if (adoptante != null) {
-                    resultadoLabel.setText("Adoptante encontrado: " + adoptante.toString());
-                } else {
-                    resultadoLabel.setText("No se encontró adoptante con esa cédula.");
+                String mascotaId = mascotaIdField.getText();
+
+                if (cedula == null || cedula.trim().isEmpty()) {
+                    resultadoLabel.setText("Por favor ingrese su cédula.");
+                    return;
+                }
+                if (mascotaId == null || mascotaId.trim().isEmpty()) {
+                    resultadoLabel.setText("Por favor ingrese el ID de la mascota.");
+                    return;
+                }
+
+                // Aquí solo se guardan los valores, no los objetos
+                try {
+                    int cedulaInt = Integer.parseInt(cedula);
+                    int mascotaIdInt = Integer.parseInt(mascotaId);
+
+                    // Suponiendo que Adopciones tiene este constructor y método
+                    Adopciones adopcion = new Adopciones(cedulaInt, mascotaIdInt,"Sin validar");
+                    adopcion.guardar();
+
+                    resultadoLabel.setText("Adopción registrada correctamente.");
+                } catch (NumberFormatException ex) {
+                    resultadoLabel.setText("Cédula o ID de mascota inválidos.");
                 }
             }
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new AdopcionesUi().setVisible(true);
         });
     }
 }

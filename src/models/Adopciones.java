@@ -4,22 +4,25 @@ public class Adopciones {
     private Adoptante adoptante;
     private Mascota mascota;
     private String EstadoAdopcion;
+    private int cedulaAdoptante;
+    private int idMascota;
     public Adopciones(){}
-    public Adopciones(Adoptante adoptante, Mascota mascota){
-        this.adoptante=adoptante;
-        this.mascota=mascota;
+    public Adopciones(int cedulaAdoptante, int idMascota,String estadoAdopcion) {
+        this.cedulaAdoptante = cedulaAdoptante;
+        this.idMascota = idMascota;
+        this.EstadoAdopcion = estadoAdopcion;
     }
-    public void setAdoptante(Adoptante adoptante){
-        this.adoptante=adoptante;
+    public void setIdMascota(int idMascota) {
+        this.idMascota = idMascota;
     }
-    public Adoptante getAdoptante(){
-        return adoptante;
+    public int getIdMascota() {
+        return idMascota;
     }
-    public void setMascota(Mascota mascota){
-        this.mascota=mascota;
+    public void setCedulaAdoptante(int cedulaAdoptante) {
+        this.cedulaAdoptante = cedulaAdoptante;
     }
-    public Mascota getMascota(){
-        return mascota;
+    public int getCedulaAdoptante() {
+        return cedulaAdoptante;
     }
     public String getEstadoAdopcion() {
         return EstadoAdopcion;
@@ -27,11 +30,33 @@ public class Adopciones {
     public void setEstadoAdopcion(String estadoAdopcion) {
         EstadoAdopcion = estadoAdopcion;
     }
+    @Override
+    public String toString() {
+        return cedulaAdoptante + "," + idMascota + "," + EstadoAdopcion;
+    }
     public void guardar() {
         try (java.io.FileWriter writer = new java.io.FileWriter("data/adopciones.txt", true)) {
             writer.write(this.toString() + System.lineSeparator());
         } catch (java.io.IOException e) {
             System.err.println("Error al guardar la mascota: " + e.getMessage());
         }
+    }
+    public static java.util.ArrayList<Adopciones> obtenerTodas() {
+        java.util.ArrayList<Adopciones> lista = new java.util.ArrayList<>();
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("data/adopciones.txt"))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] partes = linea.split(",");
+                if (partes.length == 3) {
+                    int cedulaAdoptante = Integer.parseInt(partes[0]);
+                    int idMascota = Integer.parseInt(partes[1]);
+                    String estadoAdopcion = partes[2];
+                    lista.add(new Adopciones(cedulaAdoptante, idMascota, estadoAdopcion));
+                }
+            }
+        } catch (java.io.IOException e) {
+            System.err.println("Error al leer las adopciones: " + e.getMessage());
+        }
+        return lista;
     }
 }
