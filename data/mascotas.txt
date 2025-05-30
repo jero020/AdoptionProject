@@ -7,3 +7,4 @@
 7,Ginger,Bernes de la montaña,5,Hembra,Saludable,Linda y peluda,aksfjkas
 8,Manolo,pug,2,Macho,Saludable,lindo pero rabioso,https://nfnatcane.es/blog/wp-content/uploads/2019/09/perro-de-raza-boston-terrier.jpg
 9,Mongo,Pastor Aleman,3,Macho,Saludable,Lindo y jugueton,https://es.mypet.com/wp-content/uploads/sites/23/2021/03/razas-de-perros-pastor-aleman-570x455-1.jpg
+10,Kira,Gato,3,Hembra,Saludable,Linda tricolor,https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Mindo_Ecuador_1093.jpg/960px-Mindo_Ecuador_1093.jpg
