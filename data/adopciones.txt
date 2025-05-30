@@ -1,3 +1,3 @@
 1027804997,4,Sin validar
 1027804997,1,Sin validar
-1027804997,2,Sin validar
+1027804997,2,Rechazada

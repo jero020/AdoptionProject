@@ -2,153 +2,159 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import models.Mascota;
 import models.Adoptante;
-import java.util.ArrayList;
 import models.Adopciones;
 
 public class SolicitudAdopcionesFrame extends JFrame {
     Mascota mascota;
     Adoptante adoptante;
+    int indice = 0;
     ArrayList<Adopciones> listaAdopciones = new ArrayList<>();
+
+    // Campos de Mascota
+    JTextField nombreField = new JTextField();
+    JTextField animalField = new JTextField();
+    JTextField edadField = new JTextField();
+    JTextField razaField = new JTextField();
+    JTextField idField = new JTextField();
+    JTextField estadoSaludField = new JTextField();
+    JTextField descripcionField = new JTextField();
+    JTextField urlFotoField = new JTextField();
+    JTextField generoField = new JTextField();
+
+    // Campos de Adoptante
+    JTextField nombreAdoptanteField = new JTextField();
+    JTextField apellidoField = new JTextField();
+    JTextField edadAdoptanteField = new JTextField();
+    JTextField emailField = new JTextField();
+    JTextField cedulaField = new JTextField();
+
     public SolicitudAdopcionesFrame() {
         setTitle("Solicitud de Adopción");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(600, 500);
         setLocationRelativeTo(null);
-        listaAdopciones=Adopciones.obtenerTodas();
-        if (!listaAdopciones.isEmpty()) {
-            Adopciones adopcion = listaAdopciones.get(0);
-            mascota = Mascota.buscarPorId(adopcion.getIdMascota());
-            adoptante = Adoptante.buscarPorCedula(adopcion.getCedulaAdoptante());
-        }
+
+        listaAdopciones = Adopciones.obtenerTodas();
+
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        JPanel datosPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        // Botones de navegación
+        JPanel navegacionPanel = new JPanel();
+        JButton beforeBtn = new JButton("Anterior");
+        JButton nextBtn = new JButton("Siguiente");
+        navegacionPanel.add(beforeBtn);
+        navegacionPanel.add(nextBtn);
+        mainPanel.add(navegacionPanel, BorderLayout.NORTH);
 
-        // Panel de Mascota
-        JPanel mascotaPanel = new JPanel(new GridLayout(10, 1));
-        mascotaPanel.setBorder(BorderFactory.createTitledBorder("Información de la mascota"));
+        // Panel Mascota
+        JPanel mascotaPanel = new JPanel(new GridLayout(9, 2));
+        mascotaPanel.setBorder(BorderFactory.createTitledBorder("Información de la Mascota"));
+        mascotaPanel.add(new JLabel("Nombre:")); mascotaPanel.add(nombreField);
+        mascotaPanel.add(new JLabel("Animal:")); mascotaPanel.add(animalField);
+        mascotaPanel.add(new JLabel("Edad:")); mascotaPanel.add(edadField);
+        mascotaPanel.add(new JLabel("Raza:")); mascotaPanel.add(razaField);
+        mascotaPanel.add(new JLabel("ID:")); mascotaPanel.add(idField);
+        mascotaPanel.add(new JLabel("Estado de Salud:")); mascotaPanel.add(estadoSaludField);
+        mascotaPanel.add(new JLabel("Descripción:")); mascotaPanel.add(descripcionField);
+        mascotaPanel.add(new JLabel("URL Foto:")); mascotaPanel.add(urlFotoField);
+        mascotaPanel.add(new JLabel("Género:")); mascotaPanel.add(generoField);
 
-        JLabel nombreLabel = new JLabel("Nombre:");
-        JTextField nombreField = new JTextField();
-        JLabel animalLabel = new JLabel("Animal:");
-        JTextField animalField = new JTextField();
-        JLabel edadLabel = new JLabel("Edad:");
-        JTextField edadField = new JTextField();
-        JLabel razaLabel = new JLabel("Raza:");
-        JTextField razaField = new JTextField();
-        JLabel idLabel = new JLabel("ID:");
-        JTextField idField = new JTextField();
-        JLabel estadoSaludLabel = new JLabel("Estado de Salud:");
-        JTextField estadoSaludField = new JTextField();
-        JLabel descripcionLabel = new JLabel("Descripción:");
-        JTextField descripcionField = new JTextField();
-        JLabel urlFotoLabel = new JLabel("URL Foto:");
-        JTextField urlFotoField = new JTextField();
-        JLabel generoLabel = new JLabel("Género:");
-        JTextField generoField = new JTextField();
+        // Panel Adoptante
+        JPanel adoptantePanel = new JPanel(new GridLayout(5, 2));
+        adoptantePanel.setBorder(BorderFactory.createTitledBorder("Información del Adoptante"));
+        adoptantePanel.add(new JLabel("Nombre:")); adoptantePanel.add(nombreAdoptanteField);
+        adoptantePanel.add(new JLabel("Apellido:")); adoptantePanel.add(apellidoField);
+        adoptantePanel.add(new JLabel("Edad:")); adoptantePanel.add(edadAdoptanteField);
+        adoptantePanel.add(new JLabel("Email:")); adoptantePanel.add(emailField);
+        adoptantePanel.add(new JLabel("Cédula:")); adoptantePanel.add(cedulaField);
 
-        mascotaPanel.add(nombreLabel);
-        mascotaPanel.add(nombreField);
-        mascotaPanel.add(animalLabel);
-        mascotaPanel.add(animalField);
-        mascotaPanel.add(edadLabel);
-        mascotaPanel.add(edadField);
-        mascotaPanel.add(razaLabel);
-        mascotaPanel.add(razaField);
-        mascotaPanel.add(idLabel);
-        mascotaPanel.add(idField);
-        mascotaPanel.add(estadoSaludLabel);
-        mascotaPanel.add(estadoSaludField);
-        mascotaPanel.add(descripcionLabel);
-        mascotaPanel.add(descripcionField);
-        mascotaPanel.add(urlFotoLabel);
-        mascotaPanel.add(urlFotoField);
-        mascotaPanel.add(generoLabel);
-        mascotaPanel.add(generoField);
-
-        // Desactivar edición de los campos de información
-        nombreField.setEditable(false);
-        animalField.setEditable(false);
-        edadField.setEditable(false);
-        razaField.setEditable(false);
-        idField.setEditable(false);
-        estadoSaludField.setEditable(false);
-        descripcionField.setEditable(false);
-        urlFotoField.setEditable(false);
-        generoField.setEditable(false);
-
-        // Si tienes una instancia de Mascota, puedes poblar los campos así:
-        if (mascota != null) {
-            nombreField.setText(mascota.getNombre());
-            edadField.setText(String.valueOf(mascota.getEdad()));
-            razaField.setText(mascota.getRaza());
-            idField.setText(String.valueOf(mascota.getId()));
-            estadoSaludField.setText(mascota.getEstadoSalud());
-            descripcionField.setText(mascota.getDescripcion());
-            urlFotoField.setText(mascota.getUrlFoto());
-            generoField.setText(mascota.getGenero());
-        }
-        // Panel de Adoptante
-        JPanel adoptantePanel = new JPanel(new GridLayout(10, 1));
-        adoptantePanel.setBorder(BorderFactory.createTitledBorder("Información del adoptante"));
-
-        JLabel nombreAdoptanteLabel = new JLabel("Nombre:");
-        JTextField nombreAdoptanteField = new JTextField();
-        JLabel apellidoLabel = new JLabel("Apellido:");
-        JTextField apellidoField = new JTextField();
-        JLabel edadAdoptanteLabel = new JLabel("Edad:");
-        JTextField edadAdoptanteField = new JTextField();
-        JLabel emailLabel = new JLabel("Email:");
-        JTextField emailField = new JTextField();
-        JLabel cedulaLabel = new JLabel("Cédula:");
-        JTextField cedulaField = new JTextField();
-
-        adoptantePanel.setLayout(new GridLayout(10, 1));
-        adoptantePanel.add(nombreAdoptanteLabel);
-        adoptantePanel.add(nombreAdoptanteField);
-        adoptantePanel.add(apellidoLabel);
-        adoptantePanel.add(apellidoField);
-        adoptantePanel.add(edadAdoptanteLabel);
-        adoptantePanel.add(edadAdoptanteField);
-        adoptantePanel.add(emailLabel);
-        adoptantePanel.add(emailField);
-        adoptantePanel.add(cedulaLabel);
-        adoptantePanel.add(cedulaField);
-
-        nombreAdoptanteField.setEditable(false);
-        apellidoField.setEditable(false);
-        edadAdoptanteField.setEditable(false);
-        emailField.setEditable(false);
-        cedulaField.setEditable(false);
-
-        if (adoptante != null) {
-            nombreAdoptanteField.setText(adoptante.getNombre());
-            apellidoField.setText(adoptante.getApellido());
-            edadAdoptanteField.setText(String.valueOf(adoptante.getEdad()));
-            emailField.setText(adoptante.getEmail());
-            cedulaField.setText(String.valueOf(adoptante.getCedula()));
+        // Desactivar edición
+        for (JTextField field : new JTextField[]{nombreField, animalField, edadField, razaField, idField, estadoSaludField, descripcionField, urlFotoField, generoField, nombreAdoptanteField, apellidoField, edadAdoptanteField, emailField, cedulaField}) {
+            field.setEditable(false);
         }
 
-        datosPanel.add(mascotaPanel);
-        datosPanel.add(adoptantePanel);
+        // Panel Central
+        JPanel centroPanel = new JPanel(new GridLayout(2, 1));
+        centroPanel.add(mascotaPanel);
+        centroPanel.add(adoptantePanel);
+        mainPanel.add(centroPanel, BorderLayout.CENTER);
 
-        // Panel de botones
-        JPanel botonesPanel = new JPanel();
+        // Botones aceptar/rechazar
+        JPanel accionesPanel = new JPanel();
         JButton aceptarBtn = new JButton("Aceptar");
         JButton rechazarBtn = new JButton("Rechazar");
-        botonesPanel.add(aceptarBtn);
-        botonesPanel.add(rechazarBtn);
+        accionesPanel.add(aceptarBtn);
+        accionesPanel.add(rechazarBtn);
+        mainPanel.add(accionesPanel, BorderLayout.SOUTH);
 
-        mainPanel.add(datosPanel, BorderLayout.CENTER);
-        mainPanel.add(botonesPanel, BorderLayout.SOUTH);
+        setContentPane(mainPanel);
 
-        add(mainPanel);
+        Runnable actualizarPantalla = () -> {
+            if (listaAdopciones.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay solicitudes.");
+                return;
+            }
 
-        // Ejemplo de acciones para los botones
-        aceptarBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Solicitud aceptada"));
-        rechazarBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Solicitud rechazada"));
+            Adopciones adopcionActual = listaAdopciones.get(indice);
+            mascota = Mascota.buscarPorId(adopcionActual.getIdMascota());
+            adoptante = Adoptante.buscarPorCedula(adopcionActual.getCedulaAdoptante());
+
+            if (mascota != null) {
+                nombreField.setText(mascota.getNombre());
+                animalField.setText(mascota.getTipo());
+                edadField.setText(String.valueOf(mascota.getEdad()));
+                razaField.setText(mascota.getRaza());
+                idField.setText(String.valueOf(mascota.getId()));
+                estadoSaludField.setText(mascota.getEstadoSalud());
+                descripcionField.setText(mascota.getDescripcion());
+                urlFotoField.setText(mascota.getUrlFoto());
+                generoField.setText(mascota.getGenero());
+            }
+
+            if (adoptante != null) {
+                nombreAdoptanteField.setText(adoptante.getNombre());
+                apellidoField.setText(adoptante.getApellido());
+                edadAdoptanteField.setText(String.valueOf(adoptante.getEdad()));
+                emailField.setText(adoptante.getEmail());
+                cedulaField.setText(String.valueOf(adoptante.getCedula()));
+            }
+        };
+
+        // Acciones de los botones
+        beforeBtn.addActionListener(e -> {
+            if (indice > 0) {
+                indice--;
+                actualizarPantalla.run();
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay adopciones anteriores.");
+            }
+        });
+
+        nextBtn.addActionListener(e -> {
+            if (indice < listaAdopciones.size() - 1) {
+                indice++;
+                actualizarPantalla.run();
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay más adopciones.");
+            }
+        });
+
+        aceptarBtn.addActionListener(e -> {
+            Adopciones adopcionActual = listaAdopciones.get(indice);
+            adopcionActual.actualizarEstadoAdopcion("Aceptada");
+            JOptionPane.showMessageDialog(this, "Solicitud aceptada.");
+        });
+
+        rechazarBtn.addActionListener(e -> {
+            Adopciones adopcionActual = listaAdopciones.get(indice);
+            adopcionActual.actualizarEstadoAdopcion("Rechazada");
+            JOptionPane.showMessageDialog(this, "Solicitud rechazada.");
+        });
+
+        actualizarPantalla.run();
         setVisible(true);
     }
 }

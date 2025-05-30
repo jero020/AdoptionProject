@@ -59,4 +59,20 @@ public class Adopciones {
         }
         return lista;
     }
+    public void actualizarEstadoAdopcion(String nuevoEstado) {
+        java.util.ArrayList<Adopciones> lista = obtenerTodas();
+        for (Adopciones adopcion : lista) {
+            if (adopcion.getCedulaAdoptante() == this.cedulaAdoptante && adopcion.getIdMascota() == this.idMascota) {
+                adopcion.setEstadoAdopcion(nuevoEstado);
+            }
+        }
+        try (java.io.FileWriter writer = new java.io.FileWriter("data/adopciones.txt", false)) {
+            for (Adopciones adopcion : lista) {
+                writer.write(adopcion.toString() + System.lineSeparator());
+            }
+        } catch (java.io.IOException e) {
+            System.err.println("Error al actualizar el estado de adopción: " + e.getMessage());
+        }
+        this.EstadoAdopcion = nuevoEstado;
+    }
 }
