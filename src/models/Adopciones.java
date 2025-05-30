@@ -1,8 +1,6 @@
 package models;
 
 public class Adopciones {
-    private Adoptante adoptante;
-    private Mascota mascota;
     private String EstadoAdopcion;
     private int cedulaAdoptante;
     private int idMascota;

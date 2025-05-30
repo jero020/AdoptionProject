@@ -5,6 +5,9 @@ import models.Mascota;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import javax.imageio.ImageIO;
 import java.util.ArrayList;
 
 public class ConsultarMascotaFrame extends JFrame implements ActionListener {
@@ -15,7 +18,6 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
     private int idMascota = 0;
     private ArrayList<Mascota> listaMascotas = new ArrayList<>();
 
-    // Campos de texto para filtrar
     private JLabel razaFiltroLabel = new JLabel("Raza:");
     private JTextField razaFiltroTextField = new JTextField();
     private JTextField edadFiltroTextField = new JTextField();
@@ -29,7 +31,6 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
     private JLabel estadoSaludFiltroLabel = new JLabel("Estado de Salud:");
     private JTextField estadoSaludFiltroTextField = new JTextField();
 
-    // Campos de texto para mostrar la información de la mascota
     private JLabel nombreLabel = new JLabel("Nombre:");
     private JTextField nombreField = new JTextField("");
 
@@ -51,30 +52,26 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
     private JLabel descripcionLabel = new JLabel("Descripción:");
     private JTextField descripcionField = new JTextField("");
 
-    private JLabel urlFotoLabel = new JLabel("URL de Foto:");
-    private JTextField urlFotoField = new JTextField("");
+    private JLabel urlFotoLabel = new JLabel("Foto:");
+    private JLabel fotoLabel = new JLabel();
 
     private JLabel generoLabel = new JLabel("Género:");
     private JTextField generoField = new JTextField("");
 
     public ConsultarMascotaFrame() {
         setTitle("Registro de Mascota");
-        setSize(400, 700);
+        setSize(500, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Panel principal con BoxLayout vertical
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        // Panel de filtros
         JPanel filtrosPanel = new JPanel(new GridLayout(5, 2, 5, 5));
         filtrosPanel.setBorder(BorderFactory.createTitledBorder("Buscar mascotas"));
         filtrosPanel.add(razaFiltroLabel);
         filtrosPanel.add(razaFiltroTextField);
-        filtrosPanel.add(generoFiltroLabel);
-        filtrosPanel.add(generoFiltroComboBox);
         filtrosPanel.add(generoFiltroLabel);
         filtrosPanel.add(generoFiltroComboBox);
         filtrosPanel.add(estadoSaludFiltroLabel);
@@ -84,62 +81,59 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
         buscarButton.addActionListener(this);
         filtrosPanel.add(buscarButton);
 
-        // Panel de información de mascota
-        JPanel infoPanel = new JPanel(new GridLayout(9, 2, 5, 5));
-        infoPanel.setBorder(BorderFactory.createTitledBorder("Información de la mascota"));
-        infoPanel.add(nombreLabel);
-        infoPanel.add(nombreField);
-        infoPanel.add(animalLabel);
-        infoPanel.add(animalField);
-        infoPanel.add(edadLabel);
-        infoPanel.add(edadField);
-        infoPanel.add(razaLabel);
-        infoPanel.add(razaField);
-        infoPanel.add(idLabel);
-        infoPanel.add(idField);
-        infoPanel.add(estadoSaludLabel);
-        infoPanel.add(estadoSaludField);
-        infoPanel.add(descripcionLabel);
-        infoPanel.add(descripcionField);
-        infoPanel.add(urlFotoLabel);
-        infoPanel.add(urlFotoField);
-        infoPanel.add(generoLabel);
-        infoPanel.add(generoField);
+        // Dentro del constructor (reemplaza el panel infoPanel y su contenido por esto)
+JPanel infoCardPanel = new JPanel();
+infoCardPanel.setLayout(new BorderLayout(10, 10));
+infoCardPanel.setBorder(BorderFactory.createTitledBorder("Información de la mascota"));
 
-        // Desactivar edición de los campos de información
-        nombreField.setEditable(false);
-        animalField.setEditable(false);
-        edadField.setEditable(false);
-        razaField.setEditable(false);
-        idField.setEditable(false);
-        estadoSaludField.setEditable(false);
-        descripcionField.setEditable(false);
-        urlFotoField.setEditable(false);
-        generoField.setEditable(false);
+// Imagen centrada arriba
+	JPanel imagePanel = new JPanel();
+	fotoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	fotoLabel.setVerticalAlignment(SwingConstants.CENTER);
+	fotoLabel.setPreferredSize(new Dimension(250, 250));
+	imagePanel.add(fotoLabel);
+	infoCardPanel.add(imagePanel, BorderLayout.NORTH);
 
-        // Panel de navegación
+// Datos debajo de la imagen
+	JPanel dataPanel = new JPanel(new GridLayout(8, 2, 5, 5));
+	dataPanel.add(nombreLabel);
+	dataPanel.add(nombreField);
+	dataPanel.add(animalLabel);
+	dataPanel.add(animalField);
+	dataPanel.add(edadLabel);
+	dataPanel.add(edadField);
+	dataPanel.add(razaLabel);
+	dataPanel.add(razaField);
+	dataPanel.add(idLabel);
+	dataPanel.add(idField);
+	dataPanel.add(estadoSaludLabel);
+	dataPanel.add(estadoSaludField);
+	dataPanel.add(descripcionLabel);
+	dataPanel.add(descripcionField);
+	dataPanel.add(generoLabel);
+	dataPanel.add(generoField);
+
+	infoCardPanel.add(dataPanel, BorderLayout.CENTER);
+
+// Agrega infoCardPanel en lugar de infoPanel
+mainPanel.add(infoCardPanel);
+
         JPanel navPanel = new JPanel();
         previous = new JButton("<");
         previous.addActionListener(this);
         next = new JButton(">");
         next.addActionListener(this);
         JButton btnAdoptar = new JButton("Adoptar Mascota");
-        btnAdoptar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            new AdopcionesUi().setVisible(true);
-            }
-        });
+        btnAdoptar.addActionListener(e -> new AdopcionesUi().setVisible(true));
         navPanel.add(previous);
         navPanel.add(next);
         navPanel.add(btnAdoptar);
 
-        // Agregar todo al panel principal
         mainPanel.add(filtrosPanel);
         mainPanel.add(Box.createVerticalStrut(10));
         mainPanel.add(new JSeparator());
         mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(infoPanel);
+        mainPanel.add(infoCardPanel);
         mainPanel.add(Box.createVerticalStrut(10));
         mainPanel.add(navPanel);
 
@@ -156,8 +150,9 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
             idField.setText("");
             estadoSaludField.setText("");
             descripcionField.setText("");
-            urlFotoField.setText("");
             generoField.setText("");
+            fotoLabel.setIcon(null);
+            fotoLabel.setText("Sin imagen");
             return;
         }
         this.mascota = listaMascotas.get(idMascota);
@@ -169,8 +164,24 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
             idField.setText(String.valueOf(this.mascota.getId()));
             estadoSaludField.setText(this.mascota.getEstadoSalud());
             descripcionField.setText(this.mascota.getDescripcion());
-            urlFotoField.setText(this.mascota.getUrlFoto());
             generoField.setText(this.mascota.getGenero());
+            try {
+                URL url = this.mascota.getUrlFoto();
+                if (url != null) {
+                    BufferedImage image = ImageIO.read(url);
+                    if (image != null) {
+                        ImageIcon icon = new ImageIcon(image.getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+                        fotoLabel.setIcon(icon);
+                        fotoLabel.setText("");
+                    } else {
+                        fotoLabel.setIcon(null);
+                        fotoLabel.setText("Imagen no disponible");
+                    }
+                }
+            } catch (Exception e) {
+                fotoLabel.setIcon(null);
+                fotoLabel.setText("Error al cargar imagen");
+            }
         }
     }
 

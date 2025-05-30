@@ -5,7 +5,7 @@ import models.Mascota;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.net.URL;
 public class GuardarMascotaFrame extends JFrame {
 
     public GuardarMascotaFrame() {
@@ -58,7 +58,13 @@ public class GuardarMascotaFrame extends JFrame {
                 int id = Mascota.obtenerUltimoId()+1; // Debes implementar este método según tu lógica
                 String estadoSalud = estadoSaludField.getText();
                 String descripcion = descripcionField.getText();
-                String urlFoto = urlFotoField.getText();
+                URL urlFoto = null;
+                try {
+                    urlFoto = new URL(urlFotoField.getText().trim());
+                } catch (java.net.MalformedURLException ex) {
+                    JOptionPane.showMessageDialog(null, "URL de foto inválida: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 String genero = (String) generoField.getSelectedItem();
 
                 Mascota mascota = new Mascota(nombre, animal, Integer.parseInt(edad), raza, id, estadoSalud, descripcion, urlFoto, genero); 

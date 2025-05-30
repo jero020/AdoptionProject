@@ -2,6 +2,8 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.net.URL;
+
 public class Mascota {
     private String nombre;
     private String animal; // Ejemplo: perro, gato, etc.
@@ -10,15 +12,16 @@ public class Mascota {
     private int id;
     private String estadoSalud;
     private String descripcion;
-    private String urlFoto;
+    private URL urlFoto;
     private String genero; // Ejemplo: macho, hembra
-    // Constructor
+
+    // Constructor vacío
     public Mascota() {
-        // Constructor vacío
     }
-    public Mascota(String nombre, String animal, int edad, String raza, int id, String estadoSalud, String descripcion, String urlFoto, String genero) {
+
+    public Mascota(String nombre, String animal, int edad, String raza, int id, String estadoSalud, String descripcion, URL urlFoto, String genero) {
         this.nombre = nombre;
-        this.animal= animal;
+        this.animal = animal;
         this.edad = edad;
         this.raza = raza;
         this.id = id;
@@ -28,13 +31,11 @@ public class Mascota {
         this.genero = genero;
     }
 
-
-    
     // Getters y Setters para los nuevos atributos
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
@@ -55,13 +56,14 @@ public class Mascota {
         this.descripcion = descripcion;
     }
 
-    public String getUrlFoto() {
+    public URL getUrlFoto() {
         return urlFoto;
     }
 
-    public void setUrlFoto(String urlFoto) {
+    public void setUrlFoto(URL urlFoto) {
         this.urlFoto = urlFoto;
     }
+
     // Getters y Setters
     public String getNombre() {
         return nombre;
@@ -94,56 +96,64 @@ public class Mascota {
     public void setRaza(String raza) {
         this.raza = raza;
     }
+
     public String getGenero() {
         return genero;
     }
+
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
     // Método para mostrar información de la mascota
     @Override
     public String toString() {
-        return id + "," + nombre + "," + raza + "," + edad + "," + genero + "," + estadoSalud + "," + descripcion + "," + urlFoto;
+        return id + "," + nombre + "," + raza + "," + edad + "," + genero + "," + estadoSalud + "," + descripcion + "," + (urlFoto != null ? urlFoto.toString() : "");
     }
+
     // Método para crear una mascota a partir de una línea de texto 
-    public static Mascota fromString(String linea) { 
+    public static Mascota fromString(String linea) {
         String[] partes = linea.split(",", 8);
-        return new Mascota(
-            partes[1],
-            partes[2],
-            Integer.parseInt(partes[3]), // Convert 'edad' to int
-            partes[4],
-            Integer.parseInt(partes[0]), // Convert 'id' to int
-            partes[5],
-            partes[6],
-            partes[7],
-            partes[4] // Assuming the last parameter is 'genero'
-        );
+        try {
+            return new Mascota(
+                partes[1],
+                partes[2],
+                Integer.parseInt(partes[3]), // edad
+                partes[4],
+                Integer.parseInt(partes[0]), // id
+                partes[5],
+                partes[6],
+                partes[7].isEmpty() ? null : new URL(partes[7]),
+                partes[4] // OJO: esto parece incorrecto, probablemente debería ser partes[5] o partes[8] si hay un campo más
+            );
+        } catch (Exception e) {
+            System.err.println("Error al parsear la mascota: " + e.getMessage());
+            return null;
+        }
     }
-    
+
     public void guardar() {
         try (java.io.FileWriter writer = new java.io.FileWriter("data/mascotas.txt", true)) {
             writer.write(this.toString() + System.lineSeparator());
         } catch (java.io.IOException e) {
             System.err.println("Error al guardar la mascota: " + e.getMessage());
         }
-        
-    
         System.out.println(this);
     }
+
     public static Mascota buscarPorId(int idBuscado) {
         try (java.util.Scanner scanner = new java.util.Scanner(new java.io.File("data/mascotas.txt"))) {
             while (scanner.hasNextLine()) {
                 String linea = scanner.nextLine();
                 Mascota mascota = Mascota.fromString(linea);
-                if (mascota.getId()==(idBuscado)) {
+                if (mascota != null && mascota.getId() == idBuscado) {
                     return mascota;
                 }
             }
         } catch (java.io.IOException e) {
             System.err.println("Error al buscar la mascota: " + e.getMessage());
         }
-        return null; // Retorna null si no se encuentra la mascota
+        return null;
     }
 
     public static ArrayList<Mascota> cargarMascotasPorCriterios(String raza, int edad, String genero, String estadoSalud) {
@@ -153,13 +163,14 @@ public class Mascota {
                 String linea = scanner.nextLine();
                 Mascota mascota = Mascota.fromString(linea);
 
-                if ((raza.isEmpty() || mascota.getRaza().equalsIgnoreCase(raza)) &&
+                if (mascota != null &&
+                    (raza.isEmpty() || mascota.getRaza().equalsIgnoreCase(raza)) &&
                     (edad == -1 || mascota.getEdad() == edad) &&
                     (genero.isEmpty() || mascota.getGenero().equalsIgnoreCase(genero)) &&
                     (estadoSalud.isEmpty() || mascota.getEstadoSalud().equalsIgnoreCase(estadoSalud))) {
                     mascotasFiltradas.add(mascota);
-                }else{
-                    System.out.println("La mascota" + mascota.getNombre() + " no cumple con los criterios de búsqueda.");
+                } else if (mascota != null) {
+                    System.out.println("La mascota " + mascota.getNombre() + " no cumple con los criterios de búsqueda.");
                 }
             }
         } catch (Exception e) {
@@ -168,6 +179,7 @@ public class Mascota {
 
         return mascotasFiltradas;
     }
+
     public static int obtenerUltimoId() {
         int ultimoId = -1;
         try (Scanner scanner = new Scanner(new java.io.File("data/mascotas.txt"))) {

@@ -1,3 +1,2 @@
-1027804997,4,Sin validar
-1027804997,1,Sin validar
-1027804997,2,Rechazada
+1027804997,9,Aceptada
+1000762165,8,Aceptada
