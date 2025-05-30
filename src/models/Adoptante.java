@@ -53,6 +53,7 @@ public class Adoptante {
     public void setEmail(String email) {
         this.email = email;
     }
+
     @Override
     public String toString() {
         return cedula+","+nombre+","+apellido+","+edad +","+email;
@@ -67,6 +68,7 @@ public class Adoptante {
     
         System.out.println(this);
     }
+    
     public static Adoptante buscarPorCedula(int cedulaBuscada) {
         try (java.util.Scanner scanner = new java.util.Scanner(new java.io.File("data/adoptantes.txt"))) {
             while (scanner.hasNextLine()) {

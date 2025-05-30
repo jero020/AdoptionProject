@@ -2,6 +2,7 @@ package ui;
 import javax.swing.*;
 import java.awt.event.*;
 import models.Adopciones;
+
 public class AdopcionesUi extends JFrame {
     private JTextField cedulaField;
     private JButton adoptarButton;

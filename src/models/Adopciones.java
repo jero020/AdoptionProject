@@ -4,7 +4,9 @@ public class Adopciones {
     private String EstadoAdopcion;
     private int cedulaAdoptante;
     private int idMascota;
+
     public Adopciones(){}
+
     public Adopciones(int cedulaAdoptante, int idMascota,String estadoAdopcion) {
         this.cedulaAdoptante = cedulaAdoptante;
         this.idMascota = idMascota;
@@ -28,10 +30,12 @@ public class Adopciones {
     public void setEstadoAdopcion(String estadoAdopcion) {
         EstadoAdopcion = estadoAdopcion;
     }
+
     @Override
     public String toString() {
         return cedulaAdoptante + "," + idMascota + "," + EstadoAdopcion;
     }
+
     public void guardar() {
         try (java.io.FileWriter writer = new java.io.FileWriter("data/adopciones.txt", true)) {
             writer.write(this.toString() + System.lineSeparator());
@@ -39,6 +43,7 @@ public class Adopciones {
             System.err.println("Error al guardar la mascota: " + e.getMessage());
         }
     }
+
     public static java.util.ArrayList<Adopciones> obtenerTodas() {
         java.util.ArrayList<Adopciones> lista = new java.util.ArrayList<>();
         try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("data/adopciones.txt"))) {
@@ -57,6 +62,7 @@ public class Adopciones {
         }
         return lista;
     }
+    
     public void actualizarEstadoAdopcion(String nuevoEstado) {
         java.util.ArrayList<Adopciones> lista = obtenerTodas();
         for (Adopciones adopcion : lista) {

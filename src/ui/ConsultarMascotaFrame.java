@@ -82,41 +82,41 @@ public class ConsultarMascotaFrame extends JFrame implements ActionListener {
         filtrosPanel.add(buscarButton);
 
         // Dentro del constructor (reemplaza el panel infoPanel y su contenido por esto)
-JPanel infoCardPanel = new JPanel();
-infoCardPanel.setLayout(new BorderLayout(10, 10));
-infoCardPanel.setBorder(BorderFactory.createTitledBorder("Información de la mascota"));
+        JPanel infoCardPanel = new JPanel();
+        infoCardPanel.setLayout(new BorderLayout(10, 10));
+        infoCardPanel.setBorder(BorderFactory.createTitledBorder("Información de la mascota"));
 
-// Imagen centrada arriba
-	JPanel imagePanel = new JPanel();
-	fotoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	fotoLabel.setVerticalAlignment(SwingConstants.CENTER);
-	fotoLabel.setPreferredSize(new Dimension(250, 250));
-	imagePanel.add(fotoLabel);
-	infoCardPanel.add(imagePanel, BorderLayout.NORTH);
+        // Imagen centrada arriba
+        JPanel imagePanel = new JPanel();
+        fotoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        fotoLabel.setVerticalAlignment(SwingConstants.CENTER);
+        fotoLabel.setPreferredSize(new Dimension(250, 250));
+        imagePanel.add(fotoLabel);
+        infoCardPanel.add(imagePanel, BorderLayout.NORTH);
 
-// Datos debajo de la imagen
-	JPanel dataPanel = new JPanel(new GridLayout(8, 2, 5, 5));
-	dataPanel.add(nombreLabel);
-	dataPanel.add(nombreField);
-	dataPanel.add(animalLabel);
-	dataPanel.add(animalField);
-	dataPanel.add(edadLabel);
-	dataPanel.add(edadField);
-	dataPanel.add(razaLabel);
-	dataPanel.add(razaField);
-	dataPanel.add(idLabel);
-	dataPanel.add(idField);
-	dataPanel.add(estadoSaludLabel);
-	dataPanel.add(estadoSaludField);
-	dataPanel.add(descripcionLabel);
-	dataPanel.add(descripcionField);
-	dataPanel.add(generoLabel);
-	dataPanel.add(generoField);
+        // Datos debajo de la imagen
+        JPanel dataPanel = new JPanel(new GridLayout(8, 2, 5, 5));
+        dataPanel.add(nombreLabel);
+        dataPanel.add(nombreField);
+        dataPanel.add(animalLabel);
+        dataPanel.add(animalField);
+        dataPanel.add(edadLabel);
+        dataPanel.add(edadField);
+        dataPanel.add(razaLabel);
+        dataPanel.add(razaField);
+        dataPanel.add(idLabel);
+        dataPanel.add(idField);
+        dataPanel.add(estadoSaludLabel);
+        dataPanel.add(estadoSaludField);
+        dataPanel.add(descripcionLabel);
+        dataPanel.add(descripcionField);
+        dataPanel.add(generoLabel);
+        dataPanel.add(generoField);
 
-	infoCardPanel.add(dataPanel, BorderLayout.CENTER);
+        infoCardPanel.add(dataPanel, BorderLayout.CENTER);
 
-// Agrega infoCardPanel en lugar de infoPanel
-mainPanel.add(infoCardPanel);
+        // Agrega infoCardPanel en lugar de infoPanel
+        mainPanel.add(infoCardPanel);
 
         JPanel navPanel = new JPanel();
         previous = new JButton("<");
